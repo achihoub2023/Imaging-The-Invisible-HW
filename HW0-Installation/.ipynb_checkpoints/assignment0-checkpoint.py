@@ -99,8 +99,6 @@ np.matmul(A, A_inv)
 # %% [markdown]
 # # Your code here
 
-def 
-
 # %% [markdown]
 # Briefly explain what your code does and how it works. If you used any external resources, cite them here.
 #
