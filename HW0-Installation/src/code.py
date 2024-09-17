@@ -50,7 +50,10 @@ def create_add_matrix(x):
     # replace the following line with an actual implementation that returns something
     three_by_three = np.ones((3, 3))
     
-    sum = x + three_by_three
+    try:
+        sum = x + three_by_three
+    except ValueError:
+        raise ValueError('Matrix must have the same shape or broacastable shape for addition')
     
     return sum
     
@@ -69,7 +72,7 @@ def indexing_aggregation(x, n):
         output (float): the operation result
     """
     # replace the following line with an actual implementation that returns something
-    return np.mean(x[:n])
+    return np.mean(x[:n]).item()
 
 def matrix_inverse(A):
     """

@@ -29,11 +29,8 @@ def save_fig_as_png(figtitle):
         figtile: filename without the ending ".png"
         
     '''
-    if os.isdir
 
-    full_save_path = savedir + figtitle + '.png'
-    plt.savefig(full_save_path, bbox_inches='tight', pad_inches=0)
-    
+    raise NotImplementedError
 
 
 def load_image(path):
@@ -54,15 +51,8 @@ def load_image(path):
         output (np.ndarray): The northwesten image as an RGB image (or RGB alpha if 4 channel image)
     """
     
-    loaded_image = Image.open(path)
-    loaded_image = np.array(loaded_image)
-    loaded_image = loaded_image.astype(np.float32)
-    loaded_image = loaded_image/255.0
-    
-    return loaded_image
-    
-    
-    
+    raise NotImplementedError
+
 def crop_chicago_from_northwestern(img):
     """
     TODO: IMPLEMENT ME

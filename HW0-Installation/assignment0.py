@@ -99,11 +99,31 @@ np.matmul(A, A_inv)
 # %% [markdown]
 # # Your code here
 
-def 
+def manipulate_random_3d_array():
+    new_array = np.random.rand(3, 3, 3)
+    
+    #add laplacian noise to this 3D array
+    new_array = new_array + np.random.laplace(0, 1, (3, 3, 3))
+    
+    #get the sum of its columns
+    column_sum = np.sum(new_array, axis=0)
+    
+    #get the sum of its rows
+    row_sum = np.sum(new_array, axis=1)
+    
+    #get the sum of its depth
+    depth_sum = np.sum(new_array, axis=2)
+    
+    #save the array to a file
+    np.save('3d_array.npy', new_array)
+    
+    return column_sum, row_sum, depth_sum
+    
+    
 
 # %% [markdown]
 # Briefly explain what your code does and how it works. If you used any external resources, cite them here.
-#
+# This code generates a 3D array of random numbers and adds laplacian noise to it. It then calculates the sum of the columns, rows, and depth of the array. Finally, it saves the array to a file to perserve it for future use. The output is three variables containing the sums in questions.
 # (Write 2-3 sentences)
 
 # %% [markdown]
