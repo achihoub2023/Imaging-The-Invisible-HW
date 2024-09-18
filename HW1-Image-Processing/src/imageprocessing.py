@@ -4,11 +4,12 @@ from PIL import Image
 import skimage.transform
 import cv2
 import matplotlib.pyplot as plt
+import os
 
 # You might need to create the directory (output)
 # and commit the complete folder after completing
 # the HW.
-savedir = '//output//'
+savedir = './output/'
 
 def save_fig_as_png(figtitle):
     '''
@@ -29,9 +30,11 @@ def save_fig_as_png(figtitle):
         figtile: filename without the ending ".png"
         
     '''
-    if os.isdir
+    if not os.path.exists(savedir):
+        os.makedirs(savedir)
 
     full_save_path = savedir + figtitle + '.png'
+    plt.gcf()
     plt.savefig(full_save_path, bbox_inches='tight', pad_inches=0)
     
 
@@ -76,8 +79,9 @@ def crop_chicago_from_northwestern(img):
     Returns:
         output (np.ndarray): The skyline of chicago with size (250,1000,3)
     """
+    return img[100:350, 400:1400, :]
     
-    raise NotImplementedError    
+    
 def downsample_by_scale_factor(img,scale_factor):
     """
     TODO: IMPLEMENT ME
@@ -97,7 +101,7 @@ def downsample_by_scale_factor(img,scale_factor):
         output (np.ndarray): The third dimension shouldn't change, only the first 2 dimensions.
     """
     
-    raise NotImplementedError
+    return skimage.transform.rescale(img, 1/scale_factor)
     
 
 
@@ -123,7 +127,12 @@ def convert_rgb2gray(rgb):
     Returns:
         output (np.ndarray): Gray scale image of RGB weighted by weighting function from above
     """
-    raise NotImplementedError
+    output = np.zeros((rgb.shape[0],rgb.shape[1]))
+    for i in range(rgb.shape[0]):
+        for j in range(rgb.shape[1]):
+            output[i,j] = 0.2989*rgb[i,j,0] + 0.5870*rgb[i,j,1] + 0.1140*rgb[i,j,2]
+    
+    return output
 
 def plot_chicago_skyline(img):
     """
@@ -144,7 +153,27 @@ def plot_chicago_skyline(img):
     Returns:
         
     """
-    raise NotImplementedError
+    
+    # plt.figure(figsize=(15, 5))
+    plt.suptitle('Chicago Skyline')
+    plt.subplot(2,2,1)
+    plt.title('Downsampling Factor 1')
+    plt.imshow(img, cmap='gray')
+    plt.subplot(2,2,2)
+    plt.title('Downsampling Factor 2')
+    plt.imshow(downsample_by_scale_factor(img,2), cmap='gray')
+    plt.subplot(2,2,3)
+    plt.title('Downsampling Factor 4')
+    plt.imshow(downsample_by_scale_factor(img,4), cmap='gray')
+    plt.subplot(2,2,4)
+    plt.title('Downsampling Factor 8')
+    plt.imshow(downsample_by_scale_factor(img,8), cmap='gray')
+    plt.tight_layout()
+    plt.show()
+
+
+def crop_rightmost_rock_from_image(img):
+    return img[0:300, 0:160, :]
 
 def rescale(img,scale):
     """
@@ -159,8 +188,8 @@ def rescale(img,scale):
     Look at the output of the image and see if looks like expected,
     if not, come up with a solution that solves this problem.
 
-    """    
-    raise NotImplementedError
+    """   
+    return skimage.transform.rescale(img, scale=scale, anti_aliasing=False, channel_axis=-1)
 
 def pad_image(img,pad_size):
     """
@@ -174,7 +203,8 @@ def pad_image(img,pad_size):
     Returns:
         output (np.ndarray): padded image
     """    
-    raise NotImplementedError
+    output = np.pad(img,((pad_size,pad_size),(pad_size,pad_size),(0,0)), mode='constant', constant_values=0)
+    return output
 
 def add_alpha_channel(img):
     """
@@ -190,7 +220,10 @@ def add_alpha_channel(img):
     Returns:
         output (np.ndarray): rgb+depth image
     """    
-    raise NotImplementedError
+    #set value to one to avoid transparency
+    alpha_channel = np.ones((img.shape[0],img.shape[1],1))
+    #stitch the alpha channel to the image
+    return np.concatenate((img,alpha_channel),axis=2)
 
 
 def overlay_two_images_of_same_size(img1,img2):
@@ -216,7 +249,16 @@ def overlay_two_images_of_same_size(img1,img2):
         output (np.ndarray): An image of the same size   
     """
     
-    raise NotImplementedError
+    output = np.zeros((img1.shape[0],img1.shape[1],4))
+    for i in range(img1.shape[0]):
+        for j in range(img1.shape[1]):
+            alpha = img2[i,j,3]
+            output[i,j,:] = img1[i,j,:]*(1-alpha) + img2[i,j,:]*alpha
+    
+    return output
+
+
+   
     
 def overlay_two_images(img1,img2,location):
     """
@@ -241,5 +283,14 @@ def overlay_two_images(img1,img2,location):
     Returns:
         output (np.ndarray): An image of size img1.shape that is overlayed with img2
     """    
+    output = np.zeros((img1.shape[0],img1.shape[1],4))
+    for i in range(img1.shape[0]):
+        for j in range(img1.shape[1]):
+            #check if the pixel is within the boundaries of img2
+            if i >= location[0] and i < location[0]+img2.shape[0] and j >= location[1] and j < location[1]+img2.shape[1]:
+                alpha = img2[i-location[0],j-location[1],3]
+                output[i,j,:] = img1[i,j,:]*(1-alpha) + img2[i-location[0],j-location[1],:]*alpha
+            else:
+                output[i,j,:] = img1[i,j,:]
     
-    raise NotImplementedError
+    return output

@@ -4,11 +4,12 @@ from PIL import Image
 import skimage.transform
 import cv2
 import matplotlib.pyplot as plt
+import os
 
 # You might need to create the directory (output)
 # and commit the complete folder after completing
 # the HW.
-savedir = '//output//'
+savedir = './output/'
 
 def save_fig_as_png(figtitle):
     '''
@@ -29,8 +30,13 @@ def save_fig_as_png(figtitle):
         figtile: filename without the ending ".png"
         
     '''
+    if not os.path.exists(savedir):
+        os.makedirs(savedir)
 
-    raise NotImplementedError
+    full_save_path = savedir + figtitle + '.png'
+    plt.gcf()
+    plt.savefig(full_save_path, bbox_inches='tight', pad_inches=0)
+    
 
 
 def load_image(path):
@@ -51,8 +57,15 @@ def load_image(path):
         output (np.ndarray): The northwesten image as an RGB image (or RGB alpha if 4 channel image)
     """
     
-    raise NotImplementedError
-
+    loaded_image = Image.open(path)
+    loaded_image = np.array(loaded_image)
+    loaded_image = loaded_image.astype(np.float32)
+    loaded_image = loaded_image/255.0
+    
+    return loaded_image
+    
+    
+    
 def crop_chicago_from_northwestern(img):
     """
     TODO: IMPLEMENT ME

@@ -140,12 +140,32 @@ def manipulate_random_3d_array():
 # (Try to write less than 5 sentences for each question)
 #
 # 1. What is Computational Photography?
+# Computational photography is a field that involves the use of digital processes to refine and generate traditional photographs . It involves the use of sensing techniques, algorithms, and image processing to enhance the quality of images. 
 # 2. Why are scientists/engineers/industry interested in Computational Photography? Can you name a few examples?
+# Computational photography is interesting to multiple parties since images are an important modality to convey visual information. It is useful in remote sensing, medical imaging, and computer vision.
 # 3. What do you think are the differences between Computational Photography, Computational Imaging, Optics, Computer Graphics, and Computer Vision?
+# The differences between computational photography, computational imaging, optics, graphics, and vision is that computational photography focuses on methods to enhance traditional photographs, computational imaging focuses on the use of algorithms to improve and collect images, optics focuses on the physics of light, graphics focuses on the creation of images, and vision focuses on the interpretation of images.
 # 4. What do you think are important skills/tools to have when you work in Computational Photography?
+# Important skills that are useful in computational photography are python programming, traditional image formation knowledge, and a good understanding of linear algebra.
 # 5. Why did you decide to take Computational Photography? Are you a photographer? Do you have experience in Computer Vision? Do you like imaging?
+# I took this class since I am interested in imaging, photography, and computer vision. I do research in computer vision, so I think I am well-suited for this class. I am not a professional photographer, but I do enjoy taking pictures.
 # 6. To familiarize yourself with including equations (in LaTeX/Word), include 2 equations from previous courses (Optics/Engineering/Signal Processing) that you might think become important for Computational Photography. Describe the formula in 1-2 sentences and make sure to cite the source.
 #    - These links might be useful to refresh your memory: [Link 1](https://www.newport.com/n/optics-formulas), [Link 2](https://www.dummies.com/education/science/physics/optics-for-dummies-cheat-sheet/)
+
+"""
+\begin{equation}
+Snell's Law: n_1sin(\theta_1) = n_2sin(\theta_2)
+\end{equation}
+This equation describes the relationship between the angles of incidence and refraction when light passes through different mediums. It is an important formula in optics and is used to calculate the refractive index of a medium.
+"""
+
+"""
+\begin{equation}
+\mathbf{P} = \mathbf{E} \times \mathbf{H}
+\end{equation}
+This equation describes the relationship between the electric field and magnetic field in an electromagnetic wave, which is shown through the right hand rule.
+
+"""
 
 # %% [markdown]
 # ## <span style="color:orange">(T) Questions: Think!</span>
@@ -155,4 +175,4 @@ def manipulate_random_3d_array():
 # ## <span style="color:indigo">(R) Results: Report</span>
 #
 # 1. Please include some images (screenshots) to show that you've successfully installed Git, Anaconda, and JupyterLab. Follow the tips in the report template to include well-labeled and captioned images.
-#
+# See attached zip file
