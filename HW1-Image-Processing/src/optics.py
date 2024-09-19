@@ -18,7 +18,12 @@ def create_radial_distance_map(N_img):
     Return:
         R (float): Radial distance map as 2D array
     """
-    raise NotImplementedError
+    x = np.linspace(-N_img/2,N_img/2,N_img)
+    y = np.linspace(-N_img/2,N_img/2,N_img)
+ 
+    X,Y = np.meshgrid(x,y)
+    
+    return np.sqrt(X**2+Y**2)
 
 def gaussian_psf(R,sigma):
     """  
@@ -44,7 +49,9 @@ def gaussian_psf(R,sigma):
     Return:
         PSF (float): A 2D-array with the gaussian PSF
     """
-    raise NotImplementedError
+    intermediate_product = (1/(sigma*np.sqrt(2*np.pi)))*np.exp(-R**2/(2*sigma**2))
+    normalized_product = intermediate_product/np.sum(intermediate_product)
+    return normalized_product
 
 
 
@@ -60,7 +67,7 @@ def calc_angular_field_of_view(sensor_size_mm,focal_length):
     Returns:
         angle of view of specific camera
     """
-    raise NotImplementedError
+    return 2*np.arctan(sensor_size_mm[1]/(2*focal_length))*(180/np.pi)
 
 
 def calc_field_of_view(sensor_size_mm,o_obj,focal_length):
@@ -77,7 +84,12 @@ def calc_field_of_view(sensor_size_mm,o_obj,focal_length):
     Returns:
         linear of view of specific camera for both dimensions in mm
     """
-    raise NotImplementedError
+    magnification = focal_length/(o_obj-focal_length)
+    
+    
+    return magnification*sensor_size_mm
+    
+    
 
 
 def calc_blur_radius(f,D,o_foc,o_obj):
@@ -92,8 +104,9 @@ def calc_blur_radius(f,D,o_foc,o_obj):
     Returns:
         angle of view of specific camera
     """
-    raise NotImplementedError
-
+    blur_radius = D*np.abs((f*(o_foc-o_obj))/(o_obj*(o_foc-f)))
+    
+    return blur_radius
 
 def crop_background_image_sensor_ratio(sensor_size_mm,img):
     """"
@@ -116,9 +129,25 @@ def crop_background_image_sensor_ratio(sensor_size_mm,img):
     Output:
     resized_img (int,loat): The cropped image that now has the correct aspect ratio
     """
-
-    raise NotImplementedError
-
+    aspect_ratio_of_sensor = sensor_size_mm[0]/sensor_size_mm[1]
+    aspect_ratio_of_image = img.shape[0]/img.shape[1]
+    
+    
+    if aspect_ratio_of_image > aspect_ratio_of_sensor:
+        needed_size = int(((img.shape[1])*sensor_size_mm[0]))
+        crop = needed_size     
+        new_img = img[:crop,:]
+    else:
+        needed_size = int(((img.shape[0])*(1/aspect_ratio_of_sensor)))
+        crop = needed_size
+        new_img = img[:,:crop]
+    
+    print(new_img.shape)
+    new_aspect_ratio = new_img.shape[0]/new_img.shape[1]
+    print(new_aspect_ratio)
+    assert np.abs(new_aspect_ratio-aspect_ratio_of_sensor)<0.01
+    
+    return new_img
 
 def convolve_image(img,PSF):
     """
@@ -142,4 +171,8 @@ def convolve_image(img,PSF):
     Output:
     img_filtered (foat): The filtered image of same size as img
     """
-    raise NotImplementedError
+    
+    #apply the kernel to the image
+    PSF_with_axis = PSF[:,:, np.newaxis] 
+    img_filtered = scipy.signal.fftconvolve(img, PSF_with_axis, mode='same')
+    return img_filtered

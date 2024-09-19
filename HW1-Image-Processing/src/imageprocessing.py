@@ -173,6 +173,10 @@ def plot_chicago_skyline(img):
 
 
 def crop_rightmost_rock_from_image(img):
+    """
+    Note: this is to crop the rightmost rock from the image of Lake Victoria
+    
+    """
     return img[0:300, 0:160, :]
 
 def rescale(img,scale):
