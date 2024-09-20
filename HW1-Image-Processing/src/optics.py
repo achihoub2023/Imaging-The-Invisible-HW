@@ -18,12 +18,15 @@ def create_radial_distance_map(N_img):
     Return:
         R (float): Radial distance map as 2D array
     """
-    x = np.linspace(-N_img/2,N_img/2,N_img)
-    y = np.linspace(-N_img/2,N_img/2,N_img)
- 
-    X,Y = np.meshgrid(x,y)
     
-    return np.sqrt(X**2+Y**2)
+    i_indices, j_indices = np.indices((N_img, N_img))
+    
+    center = (N_img / 2) - 1
+    
+    return np.float32(np.sqrt((i_indices - center) ** 2 + (j_indices - center) ** 2))
+ 
+    
+    
 
 def gaussian_psf(R,sigma):
     """  
@@ -67,7 +70,7 @@ def calc_angular_field_of_view(sensor_size_mm,focal_length):
     Returns:
         angle of view of specific camera
     """
-    return 2*np.arctan(sensor_size_mm[1]/(2*focal_length))*(180/np.pi)
+    return 2*np.arctan(sensor_size_mm/(2*focal_length))*(180/np.pi)
 
 
 def calc_field_of_view(sensor_size_mm,o_obj,focal_length):
@@ -135,16 +138,18 @@ def crop_background_image_sensor_ratio(sensor_size_mm,img):
     
     if aspect_ratio_of_image > aspect_ratio_of_sensor:
         needed_size = int(((img.shape[1])*sensor_size_mm[0]))
-        crop = needed_size     
+        crop = needed_size
+        print(crop)     
         new_img = img[:crop,:]
     else:
         needed_size = int(((img.shape[0])*(1/aspect_ratio_of_sensor)))
         crop = needed_size
+        print(crop)
         new_img = img[:,:crop]
     
-    print(new_img.shape)
+    # print(new_img.shape)
     new_aspect_ratio = new_img.shape[0]/new_img.shape[1]
-    print(new_aspect_ratio)
+    # print(new_aspect_ratio)
     assert np.abs(new_aspect_ratio-aspect_ratio_of_sensor)<0.01
     
     return new_img

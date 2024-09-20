@@ -224,9 +224,8 @@ def add_alpha_channel(img):
     Returns:
         output (np.ndarray): rgb+depth image
     """    
-    #set value to one to avoid transparency
-    alpha_channel = np.ones((img.shape[0],img.shape[1],1))
-    #stitch the alpha channel to the image
+    alpha_channel = np.ones((img.shape[0],img.shape[1],1),dtype=np.float32)
+
     return np.concatenate((img,alpha_channel),axis=2)
 
 
@@ -260,7 +259,6 @@ def overlay_two_images_of_same_size(img1,img2):
             output[i,j,:] = img1[i,j,:]*(1-alpha) + img2[i,j,:]*alpha
     
     return output
-
 
    
     
