@@ -18,9 +18,10 @@ def create_radial_distance_map(N_img):
     Return:
         R (float): Radial distance map as 2D array
     """
-    
+    #grid indices
     i_indices, j_indices = np.indices((N_img, N_img))
     
+    #set the center to half of number of pixels
     center = (N_img / 2) - 1
     
     return np.float32(np.sqrt((i_indices - center) ** 2 + (j_indices - center) ** 2))
@@ -109,7 +110,7 @@ def calc_blur_radius(f,D,o_foc,o_obj):
     """
     blur_radius = D*np.abs((f*(o_foc-o_obj))/(o_obj*(o_foc-f)))
     
-    return blur_radius
+    return blur_radius/2.0
 
 def crop_background_image_sensor_ratio(sensor_size_mm,img):
     """"
@@ -139,12 +140,12 @@ def crop_background_image_sensor_ratio(sensor_size_mm,img):
     if aspect_ratio_of_image > aspect_ratio_of_sensor:
         needed_size = int(((img.shape[1])*sensor_size_mm[0]))
         crop = needed_size
-        print(crop)     
+        # print(crop)     
         new_img = img[:crop,:]
     else:
         needed_size = int(((img.shape[0])*(1/aspect_ratio_of_sensor)))
         crop = needed_size
-        print(crop)
+        # print(crop)
         new_img = img[:,:crop]
     
     # print(new_img.shape)

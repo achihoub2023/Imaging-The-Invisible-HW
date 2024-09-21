@@ -79,7 +79,7 @@ def crop_chicago_from_northwestern(img):
     Returns:
         output (np.ndarray): The skyline of chicago with size (250,1000,3)
     """
-    return img[100:350, 400:1400, :]
+    return img[100:350, 600:1600, :]
     
     
 def downsample_by_scale_factor(img,scale_factor):
@@ -156,6 +156,45 @@ def plot_chicago_skyline(img):
     
     # plt.figure(figsize=(15, 5))
     plt.suptitle('Chicago Skyline')
+    plt.subplot(2,2,1)
+    plt.title('Downsampling Factor 1')
+    plt.imshow(img, cmap='gray')
+    plt.subplot(2,2,2)
+    plt.title('Downsampling Factor 2')
+    plt.imshow(downsample_by_scale_factor(img,2), cmap='gray')
+    plt.subplot(2,2,3)
+    plt.title('Downsampling Factor 4')
+    plt.imshow(downsample_by_scale_factor(img,4), cmap='gray')
+    plt.subplot(2,2,4)
+    plt.title('Downsampling Factor 8')
+    plt.imshow(downsample_by_scale_factor(img,8), cmap='gray')
+    plt.tight_layout()
+    plt.show()
+
+
+
+def plot_lake_victoria_rock(img):
+    """
+    TODO: IMPLEMENT ME
+    
+    This is a simple exercise to learn how to use subplot.
+    
+    Goal of is to show a 2x2 subplot that shows the Chicagskyline for 
+    4 different downsampling factors: 1,2,4,8
+    
+    Use plt.subplot to create subfigures
+    
+    You should give a title of the compelte image (use plt.suptitle)
+    and each subfigure should have a corresponding title as well.
+
+    Args:
+        input (nd.array): 2-dimensional gray scale image
+    Returns:
+        
+    """
+    
+    # plt.figure(figsize=(15, 5))
+    plt.suptitle('Lake Victoria Rock')
     plt.subplot(2,2,1)
     plt.title('Downsampling Factor 1')
     plt.imshow(img, cmap='gray')
