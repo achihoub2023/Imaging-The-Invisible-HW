@@ -94,6 +94,8 @@ def calc_field_of_view(sensor_size_mm,o_obj,focal_length):
     # print(sensor_size_mm*magnification)
     
     # return sensor_size_mm/magnification
+    # print((sensor_size_mm/magnification)/1000)
+    
     
     angle_of_view = 2*np.arctan(sensor_size_mm/(2*focal_length))
     
