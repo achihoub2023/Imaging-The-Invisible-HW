@@ -88,10 +88,18 @@ def calc_field_of_view(sensor_size_mm,o_obj,focal_length):
     Returns:
         linear of view of specific camera for both dimensions in mm
     """
+    # magnification = focal_length/(o_obj-focal_length)
+    
     magnification = focal_length/(o_obj-focal_length)
+    # print(sensor_size_mm*magnification)
     
+    # return sensor_size_mm/magnification
     
-    return magnification*sensor_size_mm
+    angle_of_view = 2*np.arctan(sensor_size_mm/(2*focal_length))
+    
+    linear_field_of_view = 2*o_obj*np.tan(angle_of_view/2)
+    
+    return linear_field_of_view
     
     
 
